@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- 事务 -->
+	<!-- 通过txmanager发现需要一个datasource所以给一个org.apache.commons.dbcp.BasicDataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+		<property name="maxActive" value="10"></property>
+		<property name="maxIdle" value="6"></property>
+	</bean>
+	<!-- 需要一个txmanager 所以给一个org.springframework.jdbc.datasource.DataSourceTransactionManager -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 核心是transaction-manager="txManager" -->
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<bean id="studentdao" class="org.poxiao.dao.impl.StudentDaoImpl"></bean>
+	
+
+	
+	
+	<!-- 前置通知 -->
+	<bean id="StudentService" class="org.poxiao.service.impl.StudentServiceImpl">
+		<property name="studentdao" ref="studentdao"></property>
+	</bean>
+	<!-- add所在的方法 -->
+	
+	<!-- 前置通知 类 -->
+	<!-- 连接的一方 -->
+	<bean id="before" class="org.poxiao.aop.LogBefore"></bean>
+	
+	<bean id="LogAfter" class="org.poxiao.aop.LogAfter"></bean>
+	
+	<aop:config>
+		<!-- 链接的另一方 -->
+		<aop:pointcut expression="execution(public void org.poxiao.service.impl.StudentServiceImpl.addStudent(org.poxiao.entity.Student))" id="poioncut2"/>
+		<!-- 连接线 -->
+		<aop:advisor advice-ref="LogAfter" pointcut-ref="poioncut2"/>
+	</aop:config>
+	<aop:config  proxy-target-class="true">
+	<!-- 配置切入点 （在那里执行通知） -->
+		<!-- 链接的另一方 -->
+		<aop:pointcut expression="execution(public void org.poxiao.service.impl.StudentServiceImpl.addStudent(org.poxiao.entity.Student))" id="poioncut"/>
+		<!-- 连接线 -->
+		<aop:advisor advice-ref="before" pointcut-ref="poioncut"/>
+	</aop:config>
+	
+	<bean id="logAround" class="org.poxiao.aop.LogAround"></bean>
+	
+	<aop:config  proxy-target-class="true">
+	<!-- 配置切入点 （在那里执行通知） -->
+		<!-- 链接的另一方 -->
+		<aop:pointcut expression="execution(public void org.poxiao.service.impl.StudentServiceImpl.addStudent(org.poxiao.entity.Student))" id="poioncut3"/>
+		<!-- 连接线 -->
+		<aop:advisor advice-ref="logAround" pointcut-ref="poioncut3"/>
+	</aop:config>
+	
+	
+	<!-- 配置扫描器 找到包中注解写入ioc容器 -->
+	<context:component-scan base-package="org.poxiao.aop"></context:component-scan>
+	
+	<!--开启aop对注解的支持 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+
+</beans>

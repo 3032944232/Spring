@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-13">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="src/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="src/spring-aop-5.2.9.RELEASE.jar" sourcepath="C:/Users/19342/Desktop/spring-framework-5.2.9.RELEASE/libs/spring-aop-5.2.9.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="src/spring-beans-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/spring-context-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/spring-core-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/spring-expression-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="src/commons-dbcp-1.4.jar"/>
+	<classpathentry kind="lib" path="src/commons-pool-1.6.jar"/>
+	<classpathentry kind="lib" path="src/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="src/spring-jdbc-5.2.9.RELEASE.jar" sourcepath="C:/Users/19342/Desktop/spring-framework-5.2.9.RELEASE/libs/spring-jdbc-5.2.9.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="src/spring-tx-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/aspectjweaver-1.5.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
